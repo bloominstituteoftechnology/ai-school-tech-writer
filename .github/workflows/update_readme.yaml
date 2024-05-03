@@ -44,7 +44,7 @@ jobs:
           REPO_PATH: ${{ github.repository }}
           PR_NUMBER: ${{ env.pull_request_number }}
           COMMIT_SHA: ${{ env.commit_sha }}
-        run: python.main
+        run: python main.py
 
       # Additional step to enable debugging, helps in troublshooting
       - name: Enable Debug Logging
