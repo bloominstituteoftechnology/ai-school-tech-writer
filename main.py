@@ -4,7 +4,7 @@ from utility import *
 
 def main():
     # Initialize GitHub API with token
-    g = Github(os.getenv('GITHUB_TOKEN'))
+    g = Github(os.getenv('MY_GITHUB_TOKEN'))
 
     # Get the repo path and PR number from the environment variables
     repo_path = os.getenv('REPO_PATH')
