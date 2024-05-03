@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true
 
+    # Check out the repo to access its content
     steps:
-      # Check out the repo to access its content
       - name: Checkout Repository
         uses: actions/checkout@v4
 
