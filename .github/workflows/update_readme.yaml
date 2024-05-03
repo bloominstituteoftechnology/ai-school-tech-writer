@@ -3,6 +3,9 @@ name: README Update Automation
 on:
   pull_request:
     types: [closed]
+  push:
+    branches:
+      - **
 
 jobs:
   update-readme:
