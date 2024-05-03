@@ -16,7 +16,7 @@ def format_data_for_openai(diffs, readme_content, commit_messages):
     commit_messages = '\n'.join(commit_messages) + '\n\n'
 
     # Decode the README content
-    readme_content = base64.b64decode(readme_content).decode('utf-8')
+    readme_content = base64.b64decode(readme_content.content).decode('utf-8')
 
     # Construct the prompt with clear instructions for the LLM.
     prompt = (
