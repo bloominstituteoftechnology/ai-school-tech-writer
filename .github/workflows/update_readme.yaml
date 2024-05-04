@@ -17,7 +17,7 @@ jobs:
 
       # Set up Python using the latest stable version
       - name: Setup Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v2  # Updated to latest version that supports Node.js 20
         with:
           python-version: '3.12'
 
@@ -28,11 +28,32 @@ jobs:
           pip install -r requirements.txt
 
       # Extract PR Number and Commit SHA from the GitHub event context
+      - name: Get PR Info
+        id: pr_info
+        run: |
+          pr_num=$(jq -r '.pull_request.number' "$GITHUB_EVENT_PATH")
+          commit_sha=$(jq -r '.pull_request.merge_commit_sha' "$GITHUB_EVENT_PATH")
+          echo "pull_request_number=$pr_num" >> $GITHUB_ENV
+          echo "commit_sha=$commit_sha" >> $GITHUB_ENV
+
+      # Debugging step to print out environment variables
+      - name: Print Environment Variables
+        run: |
+          echo "PR_NUMBER: $PR_NUMBER"
+          echo "COMMIT_SHA: $COMMIT_SHA"
 
       # Run the Python script
-      
-      # Additional step to enable debugging, helps in troublshooting
+      - name: Generate UpdatedREADME
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+          REPO_PATH: ${{ github.repository }}
+          PR_NUMBER: ${{ env.pull_request_number }}
+          COMMIT_SHA: ${{ env.commit_sha }}
+        run: python main.py
+
+
+      # Additional step to enable debugging, helps in troubleshooting
       - name: Enable Debug Logging
         run: |
           echo "ACTIONS_STEP_DEBUG=true" >> $GITHUB_ENV
-          
