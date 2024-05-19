@@ -15,12 +15,14 @@ def load_documents() -> List[str]:
     """Loads PDF documents to be used in embeddings in a vector store"""
     loader = DirectoryLoader("./", glob="*.*")
     raw_documents = loader.load()
+
     return raw_documents
 
 def get_split_documents(raw_documents: List[str]) -> List[str]:
     """Chunks codebase documents to be used in embeddings in a vector store"""
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
     split_documents = text_splitter.split_documents(raw_documents)
+
     return split_documents
 
 def embed_documents(index_name: str) -> None:
@@ -47,6 +49,7 @@ def embed_documents(index_name: str) -> None:
     )
 
 def get_embeddings_for_diffs(index_name: str, diffs: List[str]) -> List[str]:
+    """Takes a list of diffs from a PR, stringifies them, and does embedded search"""
     embeddings = OpenAIEmbeddings(model=EMBEDDING_MODEL)
     document_vectorstore = PineconeVectorStore(
         index_name=index_name,
@@ -65,6 +68,8 @@ def delete_embeddings_for_codebase(index_name: List[str]) -> str:
     pc.delete_index(index_name)
 
 def format_data_for_prompt(diffs, commit_messages, codebase_context, pull_request_description_template):
+    """Formats contextual data and generates the prompt with it, including for system data"""
+
     # Combine the changes into a string with clear delineation.
     changes = '\n'.join([
         f'File: {file["filename"]}\nDiff: \n{file["patch"]}\n'
@@ -92,7 +97,7 @@ def format_data_for_prompt(diffs, commit_messages, codebase_context, pull_reques
     return prompt
 
 def generate_pr_description(prompt: str) -> str:
-    # Initialize model
+    """Uses a model (currently OpenAI) to generate a new pull request description"""
     client = ChatOpenAI(api_key=OPENAI_API_KEY, model="gpt-4o")
 
     try:
@@ -109,9 +114,7 @@ def generate_pr_description(prompt: str) -> str:
     except Exception as e:
         print(f'Error making LLM call: {e}')
 
-def update_pr_description(repo, pull_request_number: int, pull_request_description: str) -> None:
-    # Get the repo pull request
+def update_pr_description(repo: Github.Repository.Repository, pull_request_number: int, pull_request_description: str) -> None:
+    """Updates a given pull request at a given repo with a new description"""
     pr = repo.get_pull(pull_request_number)
-
-    # Edit the PR description
     pr.edit(body=pull_request_description)
