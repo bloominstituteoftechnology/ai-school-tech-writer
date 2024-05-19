@@ -1,9 +1,9 @@
-import os
-import base64
-from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers.string import StrOutputParser
+from langchain_openai import ChatOpenAI
+import base64
+import os
 
-def format_data_for_openai(diffs, readme_content, commit_messages):
+def format_data_for_prompt(diffs, readme_content, commit_messages):
     prompt = None
     # Combine the changes into a string with clear delineation.
     changes = '\n'.join([

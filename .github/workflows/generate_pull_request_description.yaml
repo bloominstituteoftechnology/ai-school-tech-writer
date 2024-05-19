@@ -1,0 +1,49 @@
+name: Generate PR Description
+
+on:
+  pull_request:
+    types: [opened]
+  push:
+    branches:
+      - "*"
+
+jobs:
+  generate-pull-request-description:
+    name: Write PR Description
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.12"
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # - name: Get PR Info
+      #   id: pr_info
+      #   run: |
+      #     pr_num=$(jq -r '.pull_request.number' "$GITHUB_EVENT_PATH")
+      #     commit_sha=$(jq -r '.pull_request.merge_commit_sha' "$GITHUB_EVENT_PATH")
+      #     echo "pull_request_number=$pr_num" >> $GITHUB_ENV
+      #     echo "commit_sha=$commit_sha" >> $GITHUB_ENV
+
+      - name: Generate PR Description
+        env:
+          COMMIT_SHA: ${{ env.commit_sha }}
+          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          PINECONE_API_KEY: ${{ secrets.PINECONE_API_KEY }}
+          PR_NUMBER: ${{ env.pull_request_number }}
+          REPO_PATH: ${{ github.repository }}
+        run: python main.py
+
+      # - name: Enable Debug Logging
+      #   run: |
+      #     echo "ACTIONS_STEP_DEBUG=true" >> $GITHUB_ENV

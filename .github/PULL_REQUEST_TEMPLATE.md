@@ -1,5 +1,3 @@
-## Ticket
-
 ## Problem
 
 ## Solution
