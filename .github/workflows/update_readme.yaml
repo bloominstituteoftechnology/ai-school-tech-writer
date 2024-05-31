@@ -17,13 +17,23 @@ jobs:
 
       # Set up Python using the latest stable version
       - name: Setup Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v5 
         with:
           python-version: '3.12'
+
+      - name: Extract PR Number and Commit SHA
+        id: extract_info
+        run: |
+          PR_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+          COMMIT_SHA=$(jq --raw-output .pull_request.head.sha "$GITHUB_EVENT_PATH")
+
+          echo "PR_NUMBER=$PR_NUMBER" >> $GITHUB_ENV
+          echo "COMMIT_SHA=$COMMIT_SHA" >> $GITHUB_ENV
 
       # Install Python dependencies
       - name: Install Dependencies
         run: |
+          env
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
