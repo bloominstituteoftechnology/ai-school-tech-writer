@@ -38,6 +38,15 @@ jobs:
           echo "commit_sha=$commit_sha" >> $GITHUB_ENV
 
       # Run the Python script
+      - name: Update README
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_KEY }}
+          REPO_PATH: ${{ github.repository }}
+          PR_NUMBER: ${{ env.pull_request_number }}
+          COMMIT_SHA: ${{ env.commit_sha }}
+        run: |
+          run: python main.py
       
       # Additional step to enable debugging, helps in troublshooting
       - name: Enable Debug Logging
