@@ -41,7 +41,7 @@ jobs:
       - name: Generate Updated README
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEV_GITHUB_TOKEN: ${{ secrets.DEV_GITHUB_TOKEN }}
           REPO_PATH: ${{ github.repository }}
 
         run: | 
