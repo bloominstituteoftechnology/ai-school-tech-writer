@@ -12,14 +12,11 @@ def main():
     
     # Get the repo object
     repo = g.get_repo(repo_path)
-
+    print(repo)
     # Fetch README content (assuming README.md)
     readme_content = repo.get_contents("README.md")
+    print(readme_content)
 
-    # Decode the README content
-    readme_content = base64.b64decode(readme_content.content).decode('utf-8')
-    
-    # print(readme_content)
     # Fetch pull request by number
     pull_request = repo.get_pull(pull_request_number)
 
