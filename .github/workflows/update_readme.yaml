@@ -49,6 +49,7 @@ jobs:
           env | grep COMMIT_SHA
           env | grep OPENAI_API_KEY
           env | grep DEV_GITHUB_TOKEN
+          env | grep REPO_PATH
           python main.py
       # Run the Python script
       
