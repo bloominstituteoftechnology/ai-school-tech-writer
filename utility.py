@@ -76,3 +76,9 @@ def update_readme_and_create_pr(repo, updated_readme, readme_sha):
     pull_request = repo.create_pull(title=pr_title, body=pr_body, head=new_branch_name, base="main")
     
     return pull_request # Return the pull request object if needed
+
+
+def create_new_campaign_function(repo, etc):
+    print(repo)
+    print(etc)
+    return "this is a string"

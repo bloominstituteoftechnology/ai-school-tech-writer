@@ -28,7 +28,7 @@ def main():
         } 
         for file in pull_request.get_files()
     ]
-    
+
     # Get the commit messages associated with the pull request
     commit_messages = [commit.commit.message for commit in pull_request.get_commits()]
 

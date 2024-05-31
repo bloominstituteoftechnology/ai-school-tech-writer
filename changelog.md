@@ -1,15 +1,2 @@
-Date,Endpoint or Schema,Description
-"July 30, 2024",Campaign/Funding Instruments,"[code]Funding Instrument ID[/code] will be a required field on all campaigns. [bold]This is a breaking change. All partners who wish to continue to create campaigns via the Reddit Ads API must update integrations by this date.[/bold]"
-"May 30, 2024",Campaign/Funding Instruments,"We are adding a new API endpoint to List Funding Instruments by Ad Account. Also, we will be adding [code]Funding Instrument ID[/code] as a new field on campaigns. Currently, Campaigns do not have an explicit field for Funding. After this date, [code]Funding Instrument ID[/code] must be populated on all campaigns."
-"May 29, 2024",Campaign Lifetime Budgets,"All values on [code]goal_value[/code] will be set to [code]null[/code], and the new [code]spend_cap[/code] must be used until CBO is released later in Q3. We recommend all partners make this change, in order to take full advantage of future platform bidding functionality."
-"May 28, 2024",Ad Group,"Adding two new targeting endpoints: [code]list_devices[/code] and [code]list_carriers[/code]."
-"May 21, 2024",Ad Group,"We are updating the documentation for the ad group. The excluded_interests targeting property is deprecated. Updating the documentation to be accurate."
-"May 21, 2024",Lift Study Management/Brand Lift Studies,"We are adding a new API endpoint to create a Brand Lift Study. [link=https://pages.github.snooguts.net/reddit/reddit-service-ads-api/]View Create Brand Lift Study Endpoint.[/link]"
-"April 30, 2024",Post,"Limited page size of list posts to 25"
-"April 23, 2024",Ad,"Added new effective_status option [code]MISSING_PERMISSIONS[/code] to the Ad schema."
-"April 23, 2024",Member,"Added [code]affiliation[/code] enum field to the member, which represents the affiliation type of the member."
-"April 22, 2024",Campaign Lifetime Budgets,"We will be exposing a new field on the Campaign entity called [code]spend_cap[/code].Currently, Campaign Lifetime Budgets are set by populating the [code]goal_value[/code] field on the Campaign. After April 22, the new [code]spend_cap[/code] must be used."
-"March 11, 2024",Product Feed,"Added [code]next_import_at[/code] field to the feed schedule, which displays the time when the feed will be imported next time."
-"February 21, 2024",Ad Group,"Added [code]excluded_keywords[/code] to the ad group's targeting schema."
-"February 6, 2024",Interest,"Changed default behavior to return V3 interests and updated Interest schema. See more details [link=https://reddit.my.site.com/helpcenter/s/article/Interest-targeting-new-interests]here[/link]"
-"January 11, 2024",Campaign,"Added lifetime budgets fields [code]goal_type[/code] and [code]goal_value[/code] to the campaign schema."
+Date,Description
+"March 11, 2024","Added update_readme_and_create_pr function."
