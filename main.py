@@ -3,6 +3,11 @@ from github import Github
 from utility import *
 
 def main():
+    # debugging
+    print(os.getenv('REPO_PATH'))
+    print(os.getenv('PR_NUMBER'))
+
+
     # Initialize GitHub API with token
     g = Github(os.getenv('GITHUB_TOKEN'))
 
