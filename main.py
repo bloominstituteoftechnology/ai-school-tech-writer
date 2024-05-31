@@ -3,6 +3,7 @@ from github import Github
 from utility import *
 
 def main():
+    print("aca en el script!")
     # Initialize GitHub API with token
     g = Github(os.getenv('GITHUB_TOKEN'))
 
