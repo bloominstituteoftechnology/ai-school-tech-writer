@@ -1,11 +1,8 @@
-print("aca! 1")
-
 import os
 from github import Github
 from utility import *
 
 def main():
-    print("aca en el script! 3")
     # Initialize GitHub API with token
     g = Github(os.getenv('GITHUB_TOKEN'))
 
@@ -50,6 +47,6 @@ def main():
     # Create PR for Updated PR
     update_readme_and_create_pr(repo, updated_readme, readme_content.sha)
 
-print("aca! 2")
 if __name__ == '__main__':
     main()
+    print("Finish!")
