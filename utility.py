@@ -82,3 +82,9 @@ def create_new_campaign_function(repo, etc):
     print(repo)
     print(etc)
     return "this is a string"
+
+
+def create_new_ad_group_function(ad_group, etc):
+    print(ad_group)
+    print(etc)
+    return "this is an ad group"
