@@ -18,6 +18,9 @@ def main():
 
     # Fetch README content (assuming README.md)
     readme_content = repo.get_contents("README.md")
+
+    # Decode the README content
+    readme_content = base64.b64decode(readme_content.content).decode('utf-8')
     
     # print(readme_content)
     # Fetch pull request by number
@@ -34,6 +37,9 @@ def main():
     
     # Get the commit messages associated with the pull request
     commit_messages = [commit.commit.message for commit in pull_request.get_commits()]
+
+    # Combine all commit messages
+    commit_messages = '\n'.join(commit_messages) + '\n\n'
 
     # Format data for OpenAI prompt
     prompt = format_data_for_openai(pull_request_diffs, readme_content, commit_messages)
