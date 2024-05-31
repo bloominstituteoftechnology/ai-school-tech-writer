@@ -1,6 +1,6 @@
 import os
 import base64
-import datetime
+from datetime import datetime
 from openai import OpenAI
 
 def format_data_for_openai(diffs, readme_content, commit_messages):
