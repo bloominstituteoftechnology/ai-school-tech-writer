@@ -41,14 +41,14 @@ jobs:
       - name: Generate Updated README
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          DEV_GITHUB_TOKEN: ${{ secrets.DEV_GITHUB_TOKEN }}
+          GITHUB_ACTIONS_TOKEN: ${{ github.token }}
           REPO_PATH: ${{ github.repository }}
 
         run: | 
           env | grep PR_NUMBER
           env | grep COMMIT_SHA
           env | grep OPENAI_API_KEY
-          env | grep DEV_GITHUB_TOKEN
+          env | grep GITHUB_ACTIONS_TOKEN
           env | grep REPO_PATH
           python main.py
       # Run the Python script
