@@ -2,13 +2,12 @@ name: README Update Automation
 
 on:
   pull_request:
-    types: [closed]
+    types: [opened]
 
 jobs:
   update-readme:
-    name: Update README after PR merge
+    name: Update README on PR open
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true
 
     steps:
       # Check out the repo to access its content
@@ -28,12 +27,11 @@ jobs:
           pip install -r requirements.txt
 
       # Extract PR Number and Commit SHA from the GitHub event context
-      # what data would we be able to access from within a drone pipeline?
       - name: Get PR Info
         id: pr_info
         run: |
           pr_num=$(jq -r '.pull_request.number' "$GITHUB_EVENT_PATH")
-          commit_sha=$(jq -r '.pull_request.merge_commit_sha' "$GITHUB_EVENT_PATH")
+          commit_sha=$(jq -r '.pull_request.head.sha' "$GITHUB_EVENT_PATH")
           echo "pull_request_number=$pr_num" >> $GITHUB_ENV
           echo "commit_sha=$commit_sha" >> $GITHUB_ENV
 
@@ -48,8 +46,7 @@ jobs:
         run: |
           python main.py
       
-      # Additional step to enable debugging, helps in troublshooting
+      # Additional step to enable debugging, helps in troubleshooting
       - name: Enable Debug Logging
         run: |
           echo "ACTIONS_STEP_DEBUG=true" >> $GITHUB_ENV
-          
