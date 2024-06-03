@@ -1,0 +1,44 @@
+x-ads-api-path-config:
+  owner:
+    $ref: ../../components/teams/ads-targeting-core.yaml
+get:
+  x-ads-api-route-name: list_carriers_v3
+  description:  List all carriers.
+  operationId: List Carriers
+  parameters:
+    - $ref: ../../components/parameters/page_size.yaml
+    - $ref: ../../components/parameters/page_token.yaml
+  responses:
+    "200":
+      description: A list of carriers.
+      content:
+        application/json:
+          schema:
+            type: object
+            title: ListCarriersResponse
+            additionalProperties: false
+            required:
+              - data
+              - pagination
+            properties:
+              data:
+                type: array
+                title: CarriersList
+                additionalProperties: false
+                items:
+                  $ref: ../../components/schema/carrier.yaml
+              pagination:
+                $ref: ../../components/schema/pagination.yaml
+    "401":
+      $ref: ../../components/responses/errors.yaml#/Unauthorized
+    "429":
+      $ref: ../../components/responses/errors.yaml#/TooManyRequests
+    "500":
+      $ref: ../../components/responses/errors.yaml#/InternalServerError
+    "503":
+      $ref: ../../components/responses/errors.yaml#/ServiceUnavailable
+  security:
+    - RedditAPIKey:
+        - "adsread"
+  tags:
+    - Targeting
