@@ -3,7 +3,7 @@ import base64
 from datetime import datetime
 from openai import OpenAI
 
-def format_data_for_openai(diffs, readme_content, commit_messages):
+def format_data_for_openai(diffs, commit_messages, changelog_contents):
     prompt = None
 
     # Combine the changes into a string with clear delineation.
@@ -16,7 +16,7 @@ def format_data_for_openai(diffs, readme_content, commit_messages):
     commit_messages = '\n'.join(commit_messages) + '\n\n'
     
     # Decode the README content
-    readme_content = base64.b64decode(readme_content.content).decode('utf-8')
+    changelog_file_content = base64.b64decode(changelog_contents.content).decode('utf-8')
 
     today = datetime.today().strftime('%Y-%m-%d')
 
@@ -29,9 +29,12 @@ def format_data_for_openai(diffs, readme_content, commit_messages):
         "code changes from pull request:\n"
         f"{changes}\n"
         "current changelog file content: \n"
-        f"{readme_content}\n"
-        f"consider the code chaanges and commit messages, determine if the changlog readme needs to be updated. If so, edit the README, ensuring to maintain its existing style and clarity. Add a new changelog entry with today's date ({today}), and briefly describe the changes.\n"
-        "Updated README:\n"
+        f"{changelog_file_content}\n"
+        f"consider the code changes and commit messages, determine if the changlog readme needs to be updated.\n"
+        f"if any yaml file in the /specs directory has been modified, add a new entry to the changelog CSV file.\n"
+        f"Make sure to ensure to maintain its existing style and clarity. the changelog entry should contain today's date ({today}),\n"
+        f"the endpoint or schema being changed, and briefly describe the changes.\n"
+        f"Updated README:\n"
     )
 
     return prompt
@@ -42,7 +45,7 @@ def call_openai(prompt):
     try:
         # Construct the chat messages for the conversation
         messages = [
-            {"role": "system", "content": "You are an AI trained to help with updating README files based on code changes."},
+            {"role": "system", "content": "You are an AI trained to help with updating changelog files based on code changes."},
             {"role": "user", "content": prompt},
         ]
         
@@ -78,13 +81,14 @@ def update_readme_and_create_pr(repo, updated_readme, readme_sha):
     return pull_request # Return the pull request object if needed
 
 
-def create_new_campaign_function(repo, etc):
-    print(repo)
-    print(etc)
-    return "this is a string"
+def update_existing_pr_with_changelog(repo, pull_request, updated_changelog, changelog_sha):
+    """Update the existing PR with the updated changelog content."""
+    commit_message = "Proposed changelog update based on recent code changes."
 
+    # Update the changelog file on the existing PR branch
+    repo.update_file("changelog.csv", commit_message, updated_changelog, changelog_sha, branch=pull_request.head.ref)
 
-def create_new_ad_group_function(ad_group, etc):
-    print(ad_group)
-    print(etc)
-    return "this is an ad group"
+    # Add a comment to the PR to notify about the changelog update
+    pull_request.create_issue_comment("Changelog file has been updated based on the recent code changes.")
+
+    return pull_request # Return the pull request object if needed

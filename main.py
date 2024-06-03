@@ -15,8 +15,9 @@ def main():
 
     # Fetch README content (assuming README.md)
     readme_content = repo.get_contents("README.md")
+    changelog_contents = repo.get_contents("changelog.csv")
+    print(changelog_contents)
     
-    # print(readme_content)
     # Fetch pull request by number
     pull_request = repo.get_pull(pull_request_number)
 
@@ -33,13 +34,14 @@ def main():
     commit_messages = [commit.commit.message for commit in pull_request.get_commits()]
 
     # Format data for OpenAI prompt
-    prompt = format_data_for_openai(pull_request_diffs, readme_content, commit_messages)
+    prompt = format_data_for_openai(pull_request_diffs, commit_messages, changelog_contents)
 
     # Call OpenAI to generate the updated README content
-    updated_readme = call_openai(prompt)
+    updated_changelog = call_openai(prompt)
 
-    # Create PR for Updated PR
-    update_readme_and_create_pr(repo, updated_readme, readme_content.sha)
+    # Update the existing PR with the code suggestion
+    update_existing_pr_with_changelog(repo, pull_request, updated_changelog, changelog_contents.sha)
+
 
 if __name__ == '__main__':
     main()
