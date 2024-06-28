@@ -19,7 +19,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v3
         with:
-          python-version: '3.12'
+          python-version: "3.12"
 
       # Install Python dependencies
       - name: Install Dependencies
@@ -37,19 +37,16 @@ jobs:
           echo "commit_sha=$commit_sha" >> $GITHUB_ENV
 
       # Run the Python script
-      - name: Generate Updated Readme
+      - name: Generate Updated README
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
           REPO_PATH: ${{ github.repository }}
           PR_NUMBER: ${{ env.pull_request_number }}
           COMMIT_SHA: ${{ env.commit_sha }}
-          
+        run: python main.py
 
-      
-      
       # Additional step to enable debugging, helps in troublshooting
       - name: Enable Debug Logging
         run: |
           echo "ACTIONS_STEP_DEBUG=true" >> $GITHUB_ENV
-          
