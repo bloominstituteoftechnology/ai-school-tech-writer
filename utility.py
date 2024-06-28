@@ -6,8 +6,9 @@ from langchain_core.output_parsers import StrOutputParser
 
 def format_data_for_openai(diffs, readme_content, commit_messages):
     # Combine the changes into a string with clear delineation.
-    changes = "\n".join([f"File: {file["filename"]}\nDiff:\n{file["patch"]}\n" for file in diffs])    
-    
+    changes = "\n".join(
+        [f'File: {file["filename"]}\nDiff: \n{file["patch"]}\n' for file in diffs]
+    )    
     # Combine all commit messages
     commit_messages = "\n".join(commit_messages) + "\n\n"
     # Decode the README content
