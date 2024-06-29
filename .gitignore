@@ -1,0 +1,10 @@
+# ignore .env file containing secrets
+.env
+
+# ignore common Python virtual environment names
+env/
+myenv/
+venv/
+.env/
+.myenv/
+.venv/
